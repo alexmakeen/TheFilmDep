@@ -5,15 +5,16 @@ import { MdInvertColors} from "react-icons/md"
 import { RiCameraLensFill } from "react-icons/ri"
 import { FaCheck, FaStar } from "react-icons/fa"
 
-const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
+const ItemsDetailsPage = ({thirtyfive, twenty, color}) => {
 
     const [item, setItem] = useState()
-    // const { name } = useParams();
+    const { name } = useParams();
 
     useEffect(() => {
         fetch(`/searchAll/items/${name}`)
         .then((res) => res.json())
         .then((data) => {
+            console.log(data)
             setItem(data.data)
         })
         .catch((err) => console.log("Error: ", err));
@@ -45,9 +46,9 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
         });
     };
     
-    const blackWhite = color === false
-    const thirtyFive = thirtyfive === true
-    const twentyRoll = twenty === true
+    // const blackWhite = color === false
+    // const thirtyFive = thirtyfive === true
+    // const twentyRoll = twenty === true
 
     return (
         <>
@@ -68,7 +69,7 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
             <div className="details">
             <div className="format">
             <p>format:</p>
-            {
+            {/* {
                 thirtyFive && (
                     <>
                     <p>35mm</p>                    
@@ -98,7 +99,7 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
                     <p><MdInvertColors />black</p>                    
                     </>
                 )
-            }
+            } */}
             </div>
             </div>
             <p className="description">{item.description}</p>
@@ -170,4 +171,4 @@ button {
 
 `
 
-export default ItemsDetails
+export default ItemsDetailsPage

@@ -26,7 +26,7 @@ useEffect(() => {
         ) : (
         <>
         <h1>All Items:</h1>
-        {/* <SearchBar disabled={true} allItems={allItems} /> */}
+        
         <MapDiv>
             {
                 allItems.map(item => {
@@ -42,7 +42,8 @@ useEffect(() => {
 }
 
 const MapDiv = styled.div`
-  margin-top: 120px;
+
+  margin-top: 270px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;

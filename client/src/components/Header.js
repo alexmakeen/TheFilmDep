@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom"
 import styled from "styled-components"
 import { FaCameraRetro, FaSearch, FaUserCircle } from "react-icons/fa"
 import TFDLogo from "../assets/TFDLogo.png"
-
+import SearchBar from "./SearchBar"
 
 
 const Header = () => {
@@ -15,7 +15,8 @@ const Header = () => {
     return (
         <Wrapper>
         <StyledLink to="/"><Logo src={TFDLogo} alt="TFDLogo" /></StyledLink>
-        <StyledLink to="/"><FaCameraRetro /></StyledLink>
+        {/* <StyledLink to="/"><FaCameraRetro /></StyledLink> */}
+        <SearchBar />
         <RightHeaderItems>
         <StyledLink to="/searchAll"><FaSearch /></StyledLink>
         {!isAuthenticated && (

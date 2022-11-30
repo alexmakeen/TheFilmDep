@@ -24,7 +24,7 @@ useEffect(() => {
         <StyledBanner src={Banner} alt="Banner" />
         <Tagline>The Film Dep is a repository of rolls - find your film, shoot your shots, log your notes</Tagline>
         {/* </StyledBanner> */}
-        <SearchBar />
+
         <HomeFeed />
         </>
     )

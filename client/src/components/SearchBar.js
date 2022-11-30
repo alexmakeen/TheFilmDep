@@ -103,7 +103,7 @@ const StyleForm = styled.form`
   border-radius: 25px;
   position: absolute;
   width: 500px;
-  z-index: 2;
+  /* z-index: 2; */
   left: 32%;
   top: 20%;
   
@@ -126,8 +126,6 @@ const StyleForm = styled.form`
   .inputSearch::placeholder {
     color: black;
     font-size: 18px;
-    letter-spacing: 2px;
-    font-weight: 100;
   }
 
   .inputSearch:focus {
@@ -138,7 +136,7 @@ const StyleForm = styled.form`
 `;
 
 const SuggestionsList = styled.ul`
-  z-index: 2;
+  /* z-index: 2; */
   .miniDiv {
     display: flex;
     width: 100%;
@@ -183,12 +181,5 @@ const Image = styled.img`
   margin-top: 8px;
   border: 3px solid orange;
   border-radius: 100%;
-  z-index: 2;
+  /* z-index: 2; */
 `;
-// const Loading = styled.h1`
-//   display: flex;
-//   justify-content: center;
-//   background: transparent;
-//   margin-top: 50px;
-//   position: fixed;
-// `;

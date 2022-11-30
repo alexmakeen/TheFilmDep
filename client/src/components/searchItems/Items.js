@@ -2,30 +2,87 @@ import { Link } from "react-router-dom";
 import styled from "styled-components"
 import { useEffect, useState } from "react";
 import ItemsDetails from "./ItemsDetails";
+import SearchBar from "../SearchBar";
 import { FaWindowClose } from "react-icons/fa"
+import { MdInvertColors } from "react-icons/md"
+import { RiCameraLensFill } from "react-icons/ri"
+
+
 const Items = ({key, brand, color, twenty, thirtyfive, iso, name, imageSrc}) => {
 
     const urlName = (name).replace(/\s+/g, '')
     // console.log(urlName)
     const [modal, setModal] = useState(false)
-
+    const [isShown, setIsShown] = useState(false)
 
     const toggleModal = () => {
         setModal(!modal)
-
     }
+
+    const handleClick = e => {
+        setIsShown(true)
+    }
+
+
+
+    const blackWhite = color === false
+    const thirtyFive = thirtyfive === true
+    const twentyRoll = twenty === true
+
     // to={`/searchAll/items/${urlName}`}
     return (
+        <>
+
+        {/* <SearchBar /> */}
+
+
         <ItemDiv  
         // to={`/searchAll/items/${urlName}`}
         >
         <ItemImg src={imageSrc} alt="filmRoll" />
-        <p>{name}</p>
-        <p>{brand}</p>
+        <p className="name">{name}</p>
+        <p className="brand">{brand}</p>
+        <div className="details">
+        <div className="format">
+            <p>format:</p>
+            {
+                thirtyFive && (
+                    <>
+                    <p>35mm</p>                    
+                    </>
+                )
+            }
+            {
+                twentyRoll && (
+                    <>
+                    <p>120mm</p>                    
+                    </>
+                )
+            }
+            </div>
+            <div className="icons">
+            <p><RiCameraLensFill /> iso {iso}</p>
+            {
+                !blackWhite && (
+                    <>
+                    <p><MdInvertColors className="colorOption" />color</p>                    
+                    </>
+                )
+            }
+            {
+                blackWhite && (
+                    <>
+                    <p><MdInvertColors />black</p>                    
+                    </>
+                )
+            }
+            </div>
+
+        </div>
         <ModalDiv>
         <button
         onClick={toggleModal}
-        className="btn-modal"
+        className="modalButton"
         >View Details</button>
         {modal &&(
             <div className="modal">
@@ -33,7 +90,7 @@ const Items = ({key, brand, color, twenty, thirtyfive, iso, name, imageSrc}) => 
             onClick={toggleModal}
             className="overlay"></div>
             <div className="modal-content">
-            <ItemsDetails name={urlName} />
+            <ItemsDetails name={urlName} color={color} thirtyfive={thirtyfive} twenty={twenty}  />
             <button 
             className="close-modal"
             onClick={toggleModal}
@@ -44,26 +101,56 @@ const Items = ({key, brand, color, twenty, thirtyfive, iso, name, imageSrc}) => 
         
         </ModalDiv>
         </ItemDiv>
+        </>
     )
 }
 
-const ItemDiv = styled(Link)`
-  height: 450px;
-  width: 300px;
+
+const ItemDiv = styled.div`
+  height: 400px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10px;
-  border-radius: 5%;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  margin: 3px;
+  border-radius: 1%;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;  
   text-decoration: none;
   color: black;
+
+  p {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 2px;
+    padding-right: 10px;
+  }
+
+  .name {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .brand {
+    font-style: italic;
+  }
+
+  .colorOption {
+    color: #cb65f4;
+  }
+
+  .details {
+    display: flex;
+    margin-top: 10px;
+    justify-content: flex-end;
+    font-size: 15px;
+  }
+
 `;
 
 const ItemImg = styled.img`
-  height: 200px;
-  width: 200px;
+  height: 175px;
+  width: 175px;
+  margin-bottom: 10px;
 `;
 
 const ModalDiv = styled.div `
@@ -77,12 +164,18 @@ button {
 	outline: inherit;
 }
 
-.btn-modal {
-    padding: 10px 20px;
+.modalButton {
+    padding: 12px 20px;
     display: block;
-    margin: 100px auto 0;
-    font-size: 18px;
+    margin: 10px;
+    font-size: 15px;
+    border-radius: 4%;
+    background-color: #DC6601;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    color: white;
 }
+
+
 
 .modal, .overlay {
     width: 100vw;

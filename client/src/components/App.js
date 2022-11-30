@@ -8,6 +8,7 @@ import Profile from "./Profile";
 import SearchAll from "./searchItems/SearchAll";
 import Items from "./searchItems/Items";
 import ItemsDetails from "./searchItems/ItemsDetails";
+import ItemsDetailsPage from "./searchItems/ItemsDetailsPage";
 import GlobalStyles from "./GlobalStyles";
 import {Cloudinary} from "@cloudinary/url-gen";
 
@@ -30,7 +31,8 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/searchAll" element={<SearchAll/>} />
         <Route path="/searchAll/items" element={<Items />} />
-        <Route path="/searchAll/items/:name" element={<ItemsDetails />} />
+        {/* <Route path="/searchAll/items/:name" element={<ItemsDetails />} /> */}
+        <Route path="/searchAll/items/:name" element={<ItemsDetailsPage />} />
         <Route path="" element={<h1>404: Oops!</h1>} />
       </Routes>
     </Main>
