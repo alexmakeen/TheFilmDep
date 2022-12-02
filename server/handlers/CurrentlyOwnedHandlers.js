@@ -51,10 +51,45 @@ const getCO = async (req, res) => {
 };
 
 
+const updateCONotes = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+
+    await client.connect();
+
+try {
+    const dbName = ("TFD")
+    const db = client.db(dbName);
+    
+    const _id = req.body._id
+    const fieldNotes = req.body.fieldNotes;
+
+    const result = await db.collection("filmOwned").findOneAndUpdate({ _id: _id },{ $set: { fieldNotes: fieldNotes } })
+    
+        result 
+        ? res.status(200).json({status: 200, data: result})
+        : res.status(400).json({status: 400, message: "item not found"})
+
+}
+
+
+catch (err) {
+    return res.status(500).json({ status: 500, message: err.message });
+} 
+
+finally {
+client.close();
+
+}
+
+
+}
+
+
 
 module.exports = {
     currentlyOwned,
-    getCO
+    getCO,
+    updateCONotes
 }
 
 

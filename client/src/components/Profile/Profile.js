@@ -1,13 +1,15 @@
 
 import styled from "styled-components"
 import { useAuth0 } from "@auth0/auth0-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import CurrentlyOwned from "./CurrentlyOwned";
+import Sidebar from "./Sidebar";
 
 
 const Profile = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
 
-    console.log(isAuthenticated)
+    console.log(user)
 
     const [images, setImages] = useState([])
     const [imagesToRemove, setImagesToRemove] = useState(null)
@@ -40,8 +42,7 @@ const Profile = () => {
     return (
         isAuthenticated && (
             <div>
-                <h2>{user.name}</h2>
-                <p>{user.email}</p>
+              <Sidebar user={user} />
                 <UploadButton id="upload-widget" className="cloudinary-button" 
                 onClick={() => handleOpenWidget()}
                 >Upload</UploadButton>
@@ -52,6 +53,7 @@ const Profile = () => {
                         )
                     })}
                 </div>
+                
             </div>
     )
     )

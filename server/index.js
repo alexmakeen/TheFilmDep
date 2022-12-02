@@ -12,6 +12,7 @@ const {
 const {
     currentlyOwned,
     getCO,
+    updateCONotes,
 }= require ("./handlers/CurrentlyOwnedHandlers")
 
 const {
@@ -47,6 +48,7 @@ express()
 
     .get('/currentlyOwned', getCO)
     .post('/currentlyOwned', currentlyOwned)
+    .patch('/currentlyOwned', updateCONotes)
 
     .get('/wishlist', getWishlist)
     .post('/wishlist', addWishlist)

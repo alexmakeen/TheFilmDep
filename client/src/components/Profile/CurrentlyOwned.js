@@ -1,40 +1,58 @@
 import styled from "styled-components"
+
 import { useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const HomeFeed = () => {
+import { MdInvertColors} from "react-icons/md"
+import { RiCameraLensFill } from "react-icons/ri"
+import { FaCheck, FaStar } from "react-icons/fa"
+import Sidebar from "./Sidebar";
 
+const CurrentlyOwned = () => {
+const { user, isAuthenticated, isLoading } = useAuth0();
 const [userData, setUserData] = useState("");
 
 useEffect(() => {
     fetch("/currentlyOwned").then((res) => {
         res.json().then((data) => {
-            setUserData(data.data)
+            const getUser = (data.data).filter(match => {
+                return match.username === user.nickname
+            })
+            setUserData(getUser)
+            console.log(getUser)
         })
     })
 }, [])
 
 
+// const blackWhite = color === false
+// const thirtyFive = thirtyfive === true
+// const twentyRoll = twenty === true
+
+
+
     return (
         <>
         {!userData ? (
-            <h1>Loading</h1>
+            <h1>Loading...</h1>
         ) : (
-        <>
-        <Wrapper>
-        <Heading>Here's what others are shooting with at the moment:</Heading>
-        </Wrapper>
-        <FlexDiv>
+            <>
+            <Title>Currently Owned</Title>
+            
+            <FlexDiv>
+            <MenuDiv>
+            <Sidebar />
+            </MenuDiv>
             {
                 userData.map(item => {
                     return (
             
-            <MapWrapper>
+            <Wrapper>
             <div className="imgFlex">
             <div>
             <img src={item.staticImageUrl} />
             </div>
             <div className="nameDiv">
-            <p>Added to Currently Owned by {item.username}</p>
             <h4>{item.name}</h4>
             <p className="brand">by {item.brand}</p>
             </div>
@@ -75,7 +93,7 @@ useEffect(() => {
             }
             </div>
             </div> */}
-            {/* <p className="description">{item.description}</p> */}
+            <p className="description">{item.description}</p>
             <h5>Key Features:</h5>
             {
             // console.log(item.keyFeatures)
@@ -83,46 +101,54 @@ useEffect(() => {
                     return <p>{item.feature}</p>
                 })
             } 
-            <h4>comments:</h4>
+            <h4>Field Notes:</h4>
+            {
+                (item.tags).map(tag => {
+                    return <p>{tag}</p>
+                })
+            }
+
+            {/* 
             <form>
             <input type="text" name="fieldNotes" />
-            <button type="submit">add comment</button> 
-            </form> 
-
-            </MapWrapper>
+            <button type="submit">add note</button> 
+            </form> */}
+            </Wrapper>
                     )
                 })
             }
             </FlexDiv>
+            </>
+        )
+        }
+    </>
+    )}
 
-        </>)
-    }
-    </>)
-}
-
-const Wrapper = styled.div `
-background-color: #F8F0E3;
-`
-
-const Heading = styled.h1 `
-padding: 10px;
-`
-
-const FlexDiv = styled.div`
-display: flex;
-justify-content: space-evenly;
-align-items: center;
-flex-wrap: wrap;
+    const Title = styled.h1 `
+    font-size: 40px;
+    margin-top: 100px;
+    
     `
 
-const MapWrapper = styled.div `
-margin: 20px;
-width: 700px;
-height: 400px;
-font-family: Arial, Helvetica, sans-serif;
-padding: 20px;
-border-radius: 25px;
-box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+    const FlexDiv = styled.div`
+    display: flex;
+    align-items: right;
+    flex-wrap: wrap;
+    `
+
+    const MenuDiv = styled.div`
+    width: 350px;
+
+    `
+
+    const Wrapper = styled.div `
+    margin: 20px;
+    width: 600px;
+    height: 600px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
     img {
         width: 100px;
         height: auto;
@@ -169,10 +195,7 @@ box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
         color: #f5bb17;
     }
     
-    p {
-        font-size: 20px;
-    }
-
     `
 
-export default HomeFeed
+
+export default CurrentlyOwned

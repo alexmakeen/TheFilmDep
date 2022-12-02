@@ -4,10 +4,13 @@ import { useParams } from "react-router-dom";
 import { MdInvertColors} from "react-icons/md"
 import { RiCameraLensFill } from "react-icons/ri"
 import { FaCheck, FaStar } from "react-icons/fa"
-
+import { useAuth0 } from "@auth0/auth0-react";
+import Tags from "./Tags"
 const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
 
     const [item, setItem] = useState()
+    const { user, isAuthenticated, isLoading } = useAuth0();
+    const [tags, setTags] = useState([]);
     // const { name } = useParams();
 
     useEffect(() => {
@@ -19,13 +22,17 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
         .catch((err) => console.log("Error: ", err));
     }, [])
 
+    const userName = user.nickname
+
     const postToCO = (e) => {
         e.preventDefault()
 
         fetch('/currentlyOwned', {
             method: "POST",
             body: JSON.stringify({
-                ...item,
+                // ...item, user: user,
+                 ...item, username: userName, tags: tags
+                //  fieldNotesOne: fieldNotesOne, fieldNotesTwo: fieldNotesTwo, fieldNotesThree: fieldNotesThree
             }),
             headers: {
                 Accept: "application/json",
@@ -48,7 +55,7 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
     const blackWhite = color === false
     const thirtyFive = thirtyfive === true
     const twentyRoll = twenty === true
-
+    console.log(tags)
     return (
         <>
         {!item ? (
@@ -68,49 +75,43 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
             <div className="details">
             <div className="format">
             <p>format:</p>
-            {
-                thirtyFive && (
+            {thirtyFive && (
                     <>
                     <p>35mm</p>                    
-                    </>
-                )
-            }
-            {
-                twentyRoll && (
+                    </>)}
+            {twentyRoll && (
                     <>
                     <p>120mm</p>                    
-                    </>
-                )
-            }
+                    </>)}
             </div>
             <div className="icons">
             <p><RiCameraLensFill /> iso {item.iso}</p>
-            {
-                !blackWhite && (
+            {!blackWhite && (
                     <>
                     <p><MdInvertColors className="colorOption" />color</p>                    
                     </>
-                )
-            }
-            {
-                blackWhite && (
+                )}
+            {blackWhite && (
                     <>
                     <p><MdInvertColors />black</p>                    
                     </>
-                )
-            }
+                )}
             </div>
             </div>
             <p className="description">{item.description}</p>
             <h5>Key Features:</h5>
-            {
-            // console.log(item.keyFeatures)
-                (item.keyFeatures).map((item)=> {
+            {(item.keyFeatures).map((item)=> {
                     return <p>{item.feature}</p>
-                })
-            } 
-            <button className="check" onClick={postToCO}><FaCheck /></button>
+                })} 
+            <button className="check" ><FaCheck /></button>
             <button className="star"><FaStar /></button>
+            <h4>Add your fieldnotes:</h4>
+            {/* <form>
+            <input type="text" name="fieldNotes" />
+            
+            </form> */}
+            <Tags tags={tags} setTags={setTags}/> 
+            <button onClick={postToCO} type="submit">submit</button> 
             </Wrapper>
         )
         }   

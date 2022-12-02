@@ -21,8 +21,10 @@ useEffect(() => {
     return (
         <>
         {/* <StyledBanner> */}
+        <BannerDiv>
         <StyledBanner src={Banner} alt="Banner" />
         <Tagline>The Film Dep is a repository of rolls - find your film, shoot your shots, log your notes</Tagline>
+        </BannerDiv>
         {/* </StyledBanner> */}
 
         <HomeFeed />
@@ -30,6 +32,10 @@ useEffect(() => {
     )
 }
 
+const BannerDiv = styled.div `
+    width: 100%;
+    height: 100%;
+`
 
 const StyledBanner = styled.img `
 
