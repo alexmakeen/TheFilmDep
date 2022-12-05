@@ -51,45 +51,71 @@ const getCO = async (req, res) => {
 };
 
 
-const updateCONotes = async (req, res) => {
+const deleteCO = async (req, res) => {
+    const id = req.params.id
     const client = new MongoClient(MONGO_URI, options);
-
     await client.connect();
+    try {
+        const dbName = ("TNWS")
+        const db = client.db(dbName);
+        //----- delete the collection  "watches" -----//
+        const coDelete = await db.collection("cart").findOneAndDelete({id:id})
+        !coDelete
+        ? res.status(404).json({status: 404, data: coDelete, message: "invalid" })    
+        : res.status(201).json({ status: 201, data: coDelete, message: "deleted successfully" })
+    } 
+    catch (err) {
+        return res.status(500).json({ status: 500, message: err.message });
+    } 
+    client.close();
+}
 
-try {
-    const dbName = ("TFD")
-    const db = client.db(dbName);
+
+const postPhoto = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
     
-    const _id = req.body._id
-    const fieldNotes = req.body.fieldNotes;
-
-    const result = await db.collection("filmOwned").findOneAndUpdate({ _id: _id },{ $set: { fieldNotes: fieldNotes } })
+    try {
+        const dbName = ("TFD")
+        const db = client.db(dbName);
+        const addItem = req.body
     
-        result 
-        ? res.status(200).json({status: 200, data: result})
-        : res.status(400).json({status: 400, message: "item not found"})
-
+        const addPhoto = await db.collection("photos").insertOne(addItem)
+        addPhoto
+        ? res.status(200).json({status: 200, data: addPhoto})
+        : res.status(404).json({status: 404, message: "error"})
+    
+    }
+    catch (err) {
+        return res.status(500).json({ status: 500, message: err.message });
+    } 
+    client.close();
 }
 
-
-catch (err) {
-    return res.status(500).json({ status: 500, message: err.message });
-} 
-
-finally {
-client.close();
-
-}
-
-
-}
-
-
+const getPhoto = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    try {
+        const dbName = ("TFD")
+        const db = client.db(dbName);
+        
+        const photo = await db.collection("photos").find().toArray();
+            photo
+                ? res.status(200).json({ status: 200, data: photo, message: "data retrieved successfully" })
+                : res.status(404).json({status: 404, data: photo, message: "error" });      
+    } 
+    catch (err) {
+        return res.status(500).json({ status: 500, message: err.message });
+    } 
+    client.close();
+};
 
 module.exports = {
     currentlyOwned,
     getCO,
-    updateCONotes
+    deleteCO,
+    postPhoto,
+    getPhoto,
 }
 
 

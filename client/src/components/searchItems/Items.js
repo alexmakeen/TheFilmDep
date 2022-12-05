@@ -1,105 +1,82 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ItemsDetails from "./ItemsDetails";
-import SearchBar from "../SearchBar";
 import { FaWindowClose } from "react-icons/fa"
 import { MdInvertColors } from "react-icons/md"
 import { RiCameraLensFill } from "react-icons/ri"
+import { useAuth0 } from "@auth0/auth0-react";
 
-
-const Items = ({key, brand, color, twenty, thirtyfive, iso, name, imageSrc}) => {
-
+const Items = ({brand, color, twenty, thirtyfive, iso, name, imageSrc}) => {
+    const { isAuthenticated } = useAuth0();
     const urlName = (name).replace(/\s+/g, '')
     // console.log(urlName)
     const [modal, setModal] = useState(false)
-    const [isShown, setIsShown] = useState(false)
 
     const toggleModal = () => {
         setModal(!modal)
     }
-
-    const handleClick = e => {
-        setIsShown(true)
-    }
-
 
 
     const blackWhite = color === false
     const thirtyFive = thirtyfive === true
     const twentyRoll = twenty === true
 
-    // to={`/searchAll/items/${urlName}`}
     return (
         <>
-
-        {/* <SearchBar /> */}
-
-
-        <ItemDiv  
-        // to={`/searchAll/items/${urlName}`}
-        >
+        <ItemDiv>
         <ItemImg src={imageSrc} alt="filmRoll" />
         <p className="name">{name}</p>
         <p className="brand">{brand}</p>
         <div className="details">
         <div className="format">
             <p>format:</p>
-            {
-                thirtyFive && (
+            {thirtyFive && (
                     <>
                     <p>35mm</p>                    
                     </>
-                )
-            }
-            {
-                twentyRoll && (
+                )}
+            {twentyRoll && (
                     <>
                     <p>120mm</p>                    
                     </>
-                )
-            }
+                )}
             </div>
             <div className="icons">
             <p><RiCameraLensFill /> iso {iso}</p>
-            {
-                !blackWhite && (
+            {!blackWhite && (
                     <>
                     <p><MdInvertColors className="colorOption" />color</p>                    
                     </>
-                )
-            }
-            {
-                blackWhite && (
+                )}
+            {blackWhite && (
                     <>
                     <p><MdInvertColors />black</p>                    
                     </>
-                )
-            }
+                )}
             </div>
 
         </div>
-        <ModalDiv>
-        <button
-        onClick={toggleModal}
-        className="modalButton"
-        >View Details</button>
-        {modal &&(
-            <div className="modal">
-            <div 
-            onClick={toggleModal}
-            className="overlay"></div>
-            <div className="modal-content">
-            <ItemsDetails name={urlName} color={color} thirtyfive={thirtyfive} twenty={twenty}  />
-            <button 
-            className="close-modal"
-            onClick={toggleModal}
-            ><FaWindowClose /></button>
-            </div>
-            </div>
-        )}
-        
-        </ModalDiv>
+        {isAuthenticated && (<ModalDiv>
+                <button
+                onClick={toggleModal}
+                className="modalButton"
+                >View Details</button>
+                {modal &&(
+                    <div className="modal">
+                    <div 
+                    onClick={toggleModal}
+                    className="overlay"></div>
+                    <div className="modal-content">
+                    <ItemsDetails name={urlName} color={color} thirtyfive={thirtyfive} twenty={twenty}  />
+                    <button 
+                    className="close-modal"
+                    onClick={toggleModal}
+                    ><FaWindowClose /></button>
+                    </div>
+                    </div>
+                )}
+                </ModalDiv>)
+        }
         </ItemDiv>
         </>
     )

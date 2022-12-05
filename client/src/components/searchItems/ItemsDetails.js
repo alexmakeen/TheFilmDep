@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { MdInvertColors} from "react-icons/md"
 import { RiCameraLensFill } from "react-icons/ri"
 import { FaCheck, FaStar } from "react-icons/fa"
@@ -9,8 +8,9 @@ import Tags from "./Tags"
 const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
 
     const [item, setItem] = useState()
-    const { user, isAuthenticated, isLoading } = useAuth0();
+    const { user } = useAuth0();
     const [tags, setTags] = useState([]);
+    const [toggle, setToggle] = useState(true)
     // const { name } = useParams();
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
         .catch((err) => console.log("Error: ", err));
     }, [])
 
-    const userName = user.nickname
+    // const userName = user.nickname
 
     const postToCO = (e) => {
         e.preventDefault()
@@ -30,9 +30,7 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
         fetch('/currentlyOwned', {
             method: "POST",
             body: JSON.stringify({
-                // ...item, user: user,
-                 ...item, username: userName, tags: tags
-                //  fieldNotesOne: fieldNotesOne, fieldNotesTwo: fieldNotesTwo, fieldNotesThree: fieldNotesThree
+                 ...item, username: user.nickname, tags: tags
             }),
             headers: {
                 Accept: "application/json",
@@ -51,6 +49,36 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
           window.alert("Error, please try again.");
         });
     };
+
+    const postToWishlist = (e) => {
+        e.preventDefault()
+
+        fetch('/wishlist', {
+            method: "POST",
+            body: JSON.stringify({
+                 ...item, username: user.nickname,
+            }),
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+            window.alert("Added To Wishlist!");
+          } else {
+            window.alert("Unable To Add to Wishlist");
+          }
+        })
+        .catch((error) => {
+          window.alert("Error, please try again.");
+        });
+    };
+
+ const handleClick = () => {
+    setToggle(!toggle)
+ }
     
     const blackWhite = color === false
     const thirtyFive = thirtyfive === true
@@ -69,6 +97,8 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
             <div className="nameDiv">
             <h4>{item.name}</h4>
             <p className="brand">by {item.brand}</p>
+            <button className="star" onClick={postToWishlist}><FaStar /></button>
+            <span className="wishlist">add to wishlist!</span>
             </div>
             </div>
 
@@ -101,17 +131,20 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
             <p className="description">{item.description}</p>
             <h5>Key Features:</h5>
             {(item.keyFeatures).map((item)=> {
-                    return <p>{item.feature}</p>
+                    return <p key={Math.floor(Math.random() * 14000000000)}>{item.feature}</p>
                 })} 
-            <button className="check" ><FaCheck /></button>
-            <button className="star"><FaStar /></button>
-            <h4>Add your fieldnotes:</h4>
-            {/* <form>
-            <input type="text" name="fieldNotes" />
+            <button className="check" onClick={handleClick}><FaCheck /></button>
+            <span>add to currently owned!</span>
             
-            </form> */}
+            { !toggle ? (
+            <div><h4>Add your fieldnotes:</h4>
             <Tags tags={tags} setTags={setTags}/> 
-            <button onClick={postToCO} type="submit">submit</button> 
+            <button className="submitButton" onClick={postToCO} type="submit">submit</button> </div>
+           )
+           :
+           null
+            }
+            
             </Wrapper>
         )
         }   
@@ -122,6 +155,7 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
 const Wrapper = styled.div `
 
 font-family: Arial, Helvetica, sans-serif;
+
 
 img {
     width: 100px;
@@ -147,26 +181,44 @@ img {
 
 .details {
     display: flex;
-    margin: 20px 0;
     justify-content: flex-start;
     font-size: 15px;
+  }
+
+  p{
+    font-size: 12px;
   }
 
 .description {
     margin: 20px 0;
 }
 
-button {
-    font-size: 30px;
-    margin: 20px 120px;
+span {
+    font-size: 15px;
+    padding: 5px;
+    font-style: italic;
 }
 
 .check {
     color: #396431;
+    font-size: 30px;
+    margin: 20px;
 }
 
 .star {
     color: #f5bb17;
+    font-size: 20px;
+}
+
+.submitButton {
+    padding: 12px 20px;
+    display: block;
+    margin: 10px;
+    font-size: 15px;
+    border-radius: 4%;
+    background-color: #DC6601;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    color: white;
 }
 
 `

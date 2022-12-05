@@ -1,6 +1,4 @@
-import { useState } from "react"
 import styled from "styled-components"
-
 
 const Tags = ({tags, setTags}) => {
   
@@ -12,57 +10,49 @@ const Tags = ({tags, setTags}) => {
     setTags(newTags);
   };
 
-  const handleChangeDown = (e) => {
-    const val = e.target.value;
+  const handleChange = (e) => {
+    const tagItem = e.target.value;
     console.log(e.target.value)
-    if (e.key === 'Enter' && val) {
-      if (tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
+    if (e.key === 'Enter' && tagItem) {
+      if (tags.find(tag => tag.toLowerCase() === tagItem.toLowerCase())) {
         return;
       }
-      setTags([...tags, val]);
+      setTags([...tags, tagItem]);
       e.target.value = ""
      
-    } else if (e.key === 'Backspace' && !val) {
+    } else if (e.key === 'Backspace' && !tagItem) {
       DeleteTag(tags.length - 1);
     }
   };
   
   return (
-    <Wrapper className="input-tag">
-      <ul className="input-tag__tags">
+    <Wrapper className="inputTagContainer">
+      <ul className="inputTags">
         { tags.map((tag, i) => (
-          <li key={tag}>
+          <li key={Math.floor(Math.random() * 14000000000)}>
             {tag}
             <button type="button" onClick={() => { DeleteTag(i); }}>+</button>
           </li>
         ))}
-        <li className="input-tag__tags__input"><input type="text" onKeyDown={handleChangeDown} ref={c => { c = c; }} /></li>
+        <li className="inputTag"><input type="text" onKeyDown={handleChange} ref={ipt => { ipt = ipt; }} /></li>
       </ul>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-body {
-  background: #f2f2f2;
-  padding: 20px;
-}
 
-.input-tag {
+
+.inputTagContainer {
   background: white;
-  border: 1px solid #d6d6d6;
+  border: 1px solid orangered;
   border-radius: 2px;
   display: flex;
   flex-wrap: wrap;
   padding: 5px 5px 0;
 }
 
-.input-tag input {
-  border: none;
-  width: 100%;
-}
-
-.input-tag__tags {
+.inputTags {
   display: inline-flex;
   flex-wrap: wrap;
   margin: 0;
@@ -70,9 +60,9 @@ body {
   width: 100%;
 }
 
-.input-tag__tags li {
+.inputTags li {
   align-items: center;
-  background: #85A3BF;
+  background: orangered;
   border-radius: 2px;
   color: white;
   display: flex;
@@ -83,14 +73,7 @@ body {
   padding: 5px 10px;
 }
 
-.input-tag__tags li button {
-  align-items: center;
-  appearance: none;
-  background: #333333;
-  border: none;
-  border-radius: 50%;
-  color: white;
-  cursor: pointer;
+.inputTags li button {
   display: inline-flex;
   font-size: 12px;
   height: 15px;
@@ -98,11 +81,16 @@ body {
   line-height: 0;
   margin-left: 8px;
   padding: 0;
+  align-items: center;
+  background: orangered;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
   transform: rotate(45deg);
   width: 15px;
 }
 
-.input-tag__tags li.input-tag__tags__input {
+.inputTags li.inputTag {
   background: none;
   flex-grow: 1;
   padding: 0;

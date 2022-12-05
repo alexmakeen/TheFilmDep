@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
+import searchAllBanner from "../../assets/searchAllBanner.JPG"
 import styled from "styled-components"
-import SearchBar from "../SearchBar";
 import Items from "./Items";
 
 const SearchAll = () => {
@@ -25,12 +23,14 @@ useEffect(() => {
             <h1>Loading</h1>
         ) : (
         <>
-        <h1>All Items:</h1>
-        
+        <Title>All Items:</Title>
+        <BannerDiv>
+        <StyledBanner src={searchAllBanner} />
+        </BannerDiv>
         <MapDiv>
             {
                 allItems.map(item => {
-                    return <Items key={item._id} brand={item.brand} color={item.color} twenty={item.formatOneTwenty} 
+                    return <Items key={Math.floor(Math.random() * 14000000000)} brand={item.brand} color={item.color} twenty={item.formatOneTwenty} 
                     thirtyfive={item.formatThirtyFive} iso={item.iso} name={item.name} imageSrc={item.staticImageUrl}/>
                 })
             }
@@ -41,15 +41,40 @@ useEffect(() => {
     )
 }
 
+const Title = styled.h1 `
+position: absolute;
+font-size: 50px;
+color: white;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+`
+
+const BannerDiv = styled.div `
+    width: 100%;
+    height: 60%;
+`
+
+const StyledBanner = styled.img `
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+
+`
+
 const MapDiv = styled.div`
 
-  margin-top: 270px;
+  margin-top: 50px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
 `;
+
 
 
 export default SearchAll

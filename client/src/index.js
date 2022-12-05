@@ -6,7 +6,7 @@ import App from "./components/App";
 const domain = "dev-n1hg4xkscpswaxcn.us.auth0.com"
 const clientId = "BimEvm5GZV6Jl2j7zjqJghP7R05xsjwV"
 
-console.log(window.location.origin)
+// console.log(window.location.origin)
 
 ReactDOM.render(
   <Auth0Provider

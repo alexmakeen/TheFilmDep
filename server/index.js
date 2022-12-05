@@ -12,13 +12,21 @@ const {
 const {
     currentlyOwned,
     getCO,
-    updateCONotes,
+    deleteCO,
+    postPhoto,
+    getPhoto,
 }= require ("./handlers/CurrentlyOwnedHandlers")
 
 const {
     getWishlist,
     addWishlist,
-}= require ("./handlers/wishlistHandlers")
+}= require ("./handlers/WishlistHandlers")
+
+
+const {
+    addComments,
+    getComments,
+}= require("./handlers/CommentsHandlers")
 
 const port = 8000
 
@@ -48,12 +56,15 @@ express()
 
     .get('/currentlyOwned', getCO)
     .post('/currentlyOwned', currentlyOwned)
-    .patch('/currentlyOwned', updateCONotes)
+    .delete('/currentlyOwned', deleteCO)
+    .post('/photos', postPhoto)
+    .get('/photos', getPhoto)
 
     .get('/wishlist', getWishlist)
     .post('/wishlist', addWishlist)
 
-
+    .get('/comments', getComments)
+    .post('/comments', addComments)
 
 
     .listen(port, () => {

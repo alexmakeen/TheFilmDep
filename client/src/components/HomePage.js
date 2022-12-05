@@ -1,33 +1,40 @@
 import styled from "styled-components"
-import SearchBar from "./SearchBar"
 import Banner from "../assets/Banner.JPG"
 import HomeFeed from "./HomeFeed"
 import { useEffect, useState } from "react";
 const HomePage = () => {
 
-const [feed, setFeed] = useState("");
-    
+
+const [userData, setUserData] = useState("");
+
+
 
 useEffect(() => {
-    fetch("/searchAll").then((res) => {
+    fetch("/currentlyOwned").then((res) => {
         res.json().then((data) => {
-            
-            setFeed(data.data)
+            setUserData(data.data)
         })
     })
 }, [])
 
+console.log(userData)
+
 
     return (
+        <>
+        {!userData ? (
+            <h1>Loading</h1>
+        ) : (
         <>
         {/* <StyledBanner> */}
         <BannerDiv>
         <StyledBanner src={Banner} alt="Banner" />
-        <Tagline>The Film Dep is a repository of rolls - find your film, shoot your shots, log your notes</Tagline>
         </BannerDiv>
         {/* </StyledBanner> */}
 
-        <HomeFeed />
+        <HomeFeed userData={userData} />
+        </>
+        )}
         </>
     )
 }

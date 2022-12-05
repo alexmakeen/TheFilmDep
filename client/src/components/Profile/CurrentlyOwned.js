@@ -1,15 +1,10 @@
 import styled from "styled-components"
-
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { MdInvertColors} from "react-icons/md"
-import { RiCameraLensFill } from "react-icons/ri"
-import { FaCheck, FaStar } from "react-icons/fa"
-import Sidebar from "./Sidebar";
 
 const CurrentlyOwned = () => {
-const { user, isAuthenticated, isLoading } = useAuth0();
+const { user } = useAuth0();
 const [userData, setUserData] = useState("");
 
 useEffect(() => {
@@ -24,13 +19,6 @@ useEffect(() => {
     })
 }, [])
 
-
-// const blackWhite = color === false
-// const thirtyFive = thirtyfive === true
-// const twentyRoll = twenty === true
-
-
-
     return (
         <>
         {!userData ? (
@@ -40,79 +28,33 @@ useEffect(() => {
             <Title>Currently Owned</Title>
             
             <FlexDiv>
-            <MenuDiv>
-            <Sidebar />
-            </MenuDiv>
             {
-                userData.map(item => {
+                userData.map((item) => {
                     return (
             
-            <Wrapper>
+            <Wrapper key={Math.floor(Math.random() * 14000000000)}>
             <div className="imgFlex">
             <div>
-            <img src={item.staticImageUrl} />
+            <img src={item.staticImageUrl} alt="rollimg"/>
             </div>
             <div className="nameDiv">
             <h4>{item.name}</h4>
             <p className="brand">by {item.brand}</p>
             </div>
             </div>
-            {/* <div className="details">
-            <div className="format">
-            <p>format:</p>
-            {
-                thirtyFive && (
-                    <>
-                    <p>35mm</p>                    
-                    </>
-                )
-            }
-            {
-                twentyRoll && (
-                    <>
-                    <p>120mm</p>                    
-                    </>
-                )
-            }
-            </div>
-            <div className="icons">
-            <p><RiCameraLensFill /> iso {item.iso}</p>
-            {
-                !blackWhite && (
-                    <>
-                    <p><MdInvertColors className="colorOption" />color</p>                    
-                    </>
-                )
-            }
-            {
-                blackWhite && (
-                    <>
-                    <p><MdInvertColors />black</p>                    
-                    </>
-                )
-            }
-            </div>
-            </div> */}
             <p className="description">{item.description}</p>
             <h5>Key Features:</h5>
             {
-            // console.log(item.keyFeatures)
                 (item.keyFeatures).map((item)=> {
-                    return <p>{item.feature}</p>
+                    return <p key={Math.floor(Math.random() * 14000000000)}>{item.feature}</p>
                 })
             } 
-            <h4>Field Notes:</h4>
+            <h4 className="fieldNotes" >Field Notes:</h4>
             {
                 (item.tags).map(tag => {
-                    return <p>{tag}</p>
+                    return <p key={Math.floor(Math.random() * 14000000000)}>{tag}</p>
                 })
             }
-
-            {/* 
-            <form>
-            <input type="text" name="fieldNotes" />
-            <button type="submit">add note</button> 
-            </form> */}
             </Wrapper>
                     )
                 })
@@ -132,13 +74,8 @@ useEffect(() => {
 
     const FlexDiv = styled.div`
     display: flex;
-    align-items: right;
+   justify-content: center;
     flex-wrap: wrap;
-    `
-
-    const MenuDiv = styled.div`
-    width: 350px;
-
     `
 
     const Wrapper = styled.div `
@@ -193,6 +130,10 @@ useEffect(() => {
     
     .star {
         color: #f5bb17;
+    }
+
+    .fieldNotes {
+        margin: 10px 0 0 0; 
     }
     
     `

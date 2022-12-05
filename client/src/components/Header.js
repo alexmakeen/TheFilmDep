@@ -1,21 +1,19 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { Link, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import styled from "styled-components"
-import { FaCameraRetro, FaSearch, FaUserCircle } from "react-icons/fa"
+import { FaSearch, FaUserCircle } from "react-icons/fa"
 import TFDLogo from "../assets/TFDLogo.png"
 import SearchBar from "./SearchBar"
 
 
 const Header = () => {
-  const {loginWithRedirect, logout, user, isLoading, isAuthenticated} = useAuth0()
+  const {loginWithRedirect, logout, isAuthenticated} = useAuth0()
   
    
-  
-  console.log(isAuthenticated)
+
     return (
         <Wrapper>
         <StyledLink to="/"><Logo src={TFDLogo} alt="TFDLogo" /></StyledLink>
-        {/* <StyledLink to="/"><FaCameraRetro /></StyledLink> */}
         <SearchBar />
         <RightHeaderItems>
         <StyledLink to="/searchAll"><FaSearch /></StyledLink>

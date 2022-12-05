@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 const SearchBar = () => {
 
@@ -62,6 +62,7 @@ useEffect(() => {
                     <SuggestionLink
                       to={`/searchAll/items/${urlName}`}
                       onClick={() => handleSelect(suggestion)}
+                      key={Math.floor(Math.random() * 14000000000)}
                     >
                       <li className="miniDiv">
                         <div>
