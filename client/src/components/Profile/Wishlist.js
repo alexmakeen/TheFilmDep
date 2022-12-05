@@ -5,6 +5,7 @@ const Wishlist = () => {
     const { user } = useAuth0();
     const [userData, setUserData] = useState("");
 
+    // fetching wishlist from mongoDB - making sure that only the pictures uploaded by a specific user are shown
     useEffect(() => {
         fetch("/wishlist").then((res) => {
             res.json().then((data) => {

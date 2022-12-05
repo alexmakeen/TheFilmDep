@@ -7,7 +7,7 @@ const Photos = () => {
 
     const [uploadedPhoto, setUploadedPhoto] = useState()
 
-
+//fetching photos from photo collection on mongoDB - making sure that only the pictures uploaded by a specific user are shown
     useEffect(() => {
         fetch(`/photos`)
         .then((res) => res.json())

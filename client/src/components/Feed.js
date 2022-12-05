@@ -15,6 +15,7 @@ const Feed = ({userData, getComments, setGetComments}) => {
         setPostId(e.target.id)
     }   
     
+    // post method to comments collection
     const postToComments = (e) => {
         e.preventDefault()
         

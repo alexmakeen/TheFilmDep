@@ -7,7 +7,7 @@ const SearchAll = () => {
 
 const [allItems, setAllItems] = useState("");
     
-
+// fetching from API all items
 useEffect(() => {
     fetch("/searchAll").then((res) => {
         res.json().then((data) => {

@@ -2,14 +2,15 @@ import styled from "styled-components"
 
 const Tags = ({tags, setTags}) => {
   
-  
+  //lets a user delete a tag they've added
   const DeleteTag = (tag) => {
-    const newTags = [ ...tags ];
-    newTags.splice(tag, 1);
+    const dTag = [ ...tags ];
+    dTag.splice(tag, 1);
 
-    setTags(newTags);
+    setTags(dTag);
   };
 
+  //function to add a tag on key down, backspace to delete
   const handleChange = (e) => {
     const tagItem = e.target.value;
     console.log(e.target.value)

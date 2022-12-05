@@ -9,6 +9,8 @@ const [userData, setUserData] = useState("");
 const [postId, setPostId] = useState("")
 const [toggle, setToggle] = useState(true)
 
+//fetching data added to currently owned with a get fetch - making sure that only the pictures uploaded by a specific user are shown
+
 useEffect(() => {
     fetch("/currentlyOwned").then((res) => {
         res.json().then((data) => {
@@ -21,6 +23,8 @@ useEffect(() => {
     })
 }, [userData])
 
+//setting the post ID, user can click delete? and a button will pop up to let them delete that specific item
+
 const handleClick = (e) => {
     console.log(e.target.id)
     setPostId(e.target.id)
@@ -28,6 +32,8 @@ const handleClick = (e) => {
 }
 
 console.log(postId)
+
+//delete method for deleting in mongoDB by id
 
 const clearCOItems = (e) => {
     e.preventDefault()
@@ -39,6 +45,8 @@ const clearCOItems = (e) => {
       },
     });
   };
+
+  //setting the toggle state
 
   const handleClickToggle = () => {
     setToggle(!toggle)

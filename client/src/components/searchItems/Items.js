@@ -12,6 +12,7 @@ const Items = ({brand, color, twenty, thirtyfive, iso, name, imageSrc}) => {
     // console.log(urlName)
     const [modal, setModal] = useState(false)
 
+    //toggle for modal popup
     const toggleModal = () => {
         setModal(!modal)
     }

@@ -9,6 +9,7 @@ const HomeFeed = ({userData}) => {
 
 const [getComments, setGetComments] = useState("");
 
+//get comments method
 useEffect(() => {
     fetch("/comments").then((res) => {
         res.json().then((data) => {

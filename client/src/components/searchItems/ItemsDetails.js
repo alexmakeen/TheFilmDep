@@ -13,6 +13,7 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
     const [toggle, setToggle] = useState(true)
     // const { name } = useParams();
 
+    // fetching from API by specific name 
     useEffect(() => {
         fetch(`/searchAll/items/${name}`)
         .then((res) => res.json())
@@ -24,6 +25,7 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
 
     // const userName = user.nickname
 
+    //post method to mongoDB into currently owned collection
     const postToCO = (e) => {
         e.preventDefault()
 
@@ -50,6 +52,7 @@ const ItemsDetails = ({name, thirtyfive, twenty, color}) => {
         });
     };
 
+    //post method to mongoDB into wishlist collection
     const postToWishlist = (e) => {
         e.preventDefault()
 

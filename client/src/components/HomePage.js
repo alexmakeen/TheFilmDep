@@ -8,7 +8,7 @@ const HomePage = () => {
 const [userData, setUserData] = useState("");
 
 
-
+//get all currently owned items - this is a continuous feed so there is no need to separate by user id
 useEffect(() => {
     fetch("/currentlyOwned").then((res) => {
         res.json().then((data) => {
