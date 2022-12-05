@@ -12,11 +12,11 @@ const [getComments, setGetComments] = useState("");
 useEffect(() => {
     fetch("/comments").then((res) => {
         res.json().then((data) => {
-            console.log(data.data)
+            // console.log(data.data)
                 setGetComments(data.data)
         })
     })
-}, [])
+}, [getComments])
 
 
 
@@ -28,7 +28,7 @@ useEffect(() => {
         ) : (
         <>
  
-            <Feed userData={userData} getComments={getComments} />
+            <Feed userData={userData} getComments={getComments} setGetComments={setGetComments} />
         </>)
     }
     </>)

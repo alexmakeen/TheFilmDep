@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const Feed = ({userData, getComments}) => {
+const Feed = ({userData, getComments, setGetComments}) => {
 
     const { user, isAuthenticated } = useAuth0();
     const [comments, setComments] = useState([""])
@@ -36,8 +36,10 @@ const Feed = ({userData, getComments}) => {
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200) {
-            setComments("")
+            
             window.alert("Added To Comments!");
+            setComments("")
+            setGetComments("")
     
           } else {
             window.alert("Unable To Add to Comments");
@@ -49,7 +51,7 @@ const Feed = ({userData, getComments}) => {
     };
 
     const userComments = userData.map(item => ({...item, ...getComments.find(obj => obj.id === item.id)}))
-    console.log(userComments)    
+    // console.log(userComments)    
 
     const handleClickToggle = () => {
         setToggle(!toggle)
@@ -61,14 +63,14 @@ const Feed = ({userData, getComments}) => {
         <Heading>Here's what others are shooting with at the moment:</Heading>
         </Wrapper>
         <FlexDiv>
-            {
+            {/* {
                 console.log(getComments)
-            }
+            } */}
             {
                 userComments.map(item => {
                     return (
             
-            <MapWrapper>
+            <MapWrapper >
             <div className="imgFlex">
             <div>
             <img src={item.staticImageUrl} />
@@ -89,11 +91,11 @@ const Feed = ({userData, getComments}) => {
             }
             {
                 isAuthenticated && (
-            <button onClick={handleClickToggle} className="openCommentsBtn">comments:</button>
+            <button className="openCommentsBtn">comments:</button>
                 )
             }
             
-            {!toggle ?(
+            {/* {!toggle ?( */}
                 <FormContainer>
                 <form>
                     <input id={item.id} type="text" name="fieldNotes" autocomplete="off" onClick={(e) => handleClick(e)} onChange={(e) => setComments(e.target.value)} />
@@ -102,9 +104,9 @@ const Feed = ({userData, getComments}) => {
                        <p className="commentAuthor">{item.usernameComment}</p>
                        <p className="commentPosted">{item.comments}</p> 
                        </FormContainer>
-            )
-            : null 
-            }
+            {/* )
+            : null  */}
+            {/* } */}
         
          
             
@@ -208,7 +210,7 @@ box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
 	border: none;
 	cursor: pointer;
     }
-    
+
     .addedByUser {
         color: #47a664;
         font-weight: bold;

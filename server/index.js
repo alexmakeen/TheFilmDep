@@ -56,7 +56,7 @@ express()
 
     .get('/currentlyOwned', getCO)
     .post('/currentlyOwned', currentlyOwned)
-    .delete('/currentlyOwned', deleteCO)
+    .delete('/currentlyOwned/:id', deleteCO)
     .post('/photos', postPhoto)
     .get('/photos', getPhoto)
 

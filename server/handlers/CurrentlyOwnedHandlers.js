@@ -56,10 +56,10 @@ const deleteCO = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     try {
-        const dbName = ("TNWS")
+        const dbName = ("TFD")
         const db = client.db(dbName);
-        //----- delete the collection  "watches" -----//
-        const coDelete = await db.collection("cart").findOneAndDelete({id:id})
+      
+        const coDelete = await db.collection("filmOwned").findOneAndDelete({id:id})
         !coDelete
         ? res.status(404).json({status: 404, data: coDelete, message: "invalid" })    
         : res.status(201).json({ status: 201, data: coDelete, message: "deleted successfully" })

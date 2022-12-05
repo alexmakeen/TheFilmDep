@@ -1,11 +1,13 @@
 import styled from "styled-components"
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-
+import { FaWindowClose } from "react-icons/fa"
 
 const CurrentlyOwned = () => {
 const { user } = useAuth0();
 const [userData, setUserData] = useState("");
+const [postId, setPostId] = useState("")
+const [toggle, setToggle] = useState(true)
 
 useEffect(() => {
     fetch("/currentlyOwned").then((res) => {
@@ -17,7 +19,30 @@ useEffect(() => {
             console.log(getUser)
         })
     })
-}, [])
+}, [userData])
+
+const handleClick = (e) => {
+    console.log(e.target.id)
+    setPostId(e.target.id)
+    
+}
+
+console.log(postId)
+
+const clearCOItems = (e) => {
+    e.preventDefault()
+   
+    fetch(`/currentlyOwned/${postId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+  const handleClickToggle = () => {
+    setToggle(!toggle)
+ }
 
     return (
         <>
@@ -30,16 +55,27 @@ useEffect(() => {
             <FlexDiv>
             {
                 userData.map((item) => {
+                    
                     return (
             
             <Wrapper key={Math.floor(Math.random() * 14000000000)}>
+            
             <div className="imgFlex">
+                
             <div>
             <img src={item.staticImageUrl} alt="rollimg"/>
             </div>
             <div className="nameDiv">
             <h4>{item.name}</h4>
             <p className="brand">by {item.brand}</p>
+            <button id={item.id} onClick={(e) => {handleClick(e); handleClickToggle()}}>Delete Roll?</button>
+            {
+                !toggle ?( 
+                    <button id={item.id} onClick={clearCOItems}><FaWindowClose/></button>
+                )
+                : null 
+            }
+  
             </div>
             </div>
             <p className="description">{item.description}</p>
@@ -86,6 +122,16 @@ useEffect(() => {
     padding: 20px;
     border-radius: 25px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+
+    button {
+    font-size: 15px;
+    border-radius: 4%;
+    background-color: white;
+    color: #DC6601;
+	border: none;
+	cursor: pointer; 
+    }
+
     img {
         width: 100px;
         height: auto;
@@ -117,11 +163,6 @@ useEffect(() => {
     
     .description {
         margin: 20px 0;
-    }
-    
-    button {
-        font-size: 30px;
-        margin: 20px 120px;
     }
     
     .check {
